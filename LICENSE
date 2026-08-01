@@ -1,0 +1,11 @@
+/* SolisLite - gbuffers_basic.fsh */
+#version 120
+/* DRAWBUFFERS:02 */ // 0=colortex0 (Bildschirm), 2=colortex2 (Kopie fuer Wasser-Refraktion)
+
+varying vec4 vColor;
+
+void main() {
+    vec4 outColor0 = vColor;
+    gl_FragData[0] = outColor0;
+    gl_FragData[1] = outColor0;
+}

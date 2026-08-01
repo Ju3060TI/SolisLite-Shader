@@ -1,0 +1,22 @@
+/* SolisLite - gbuffers_skytextured.vsh
+ * Sonnen- und Mondscheibe (texturierte Quads). Ermittelt bereits im
+ * Vertex-Shader, ob dieses Quad zur Sonne oder zum Mond gehoert, indem
+ * die Vertexrichtung mit sunPosition/moonPosition verglichen wird. */
+#version 120
+
+#include "lib/common.glsl"
+
+varying vec4 vColor;
+varying vec2 vTexCoord;
+varying float vIsSun;
+
+void main() {
+    gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * gl_Vertex;
+    vTexCoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
+    vColor = gl_Color;
+
+    vec3 dir = normalize(gl_Vertex.xyz);
+    float sunDot  = dot(dir, normalize(sunPosition));
+    float moonDot = dot(dir, normalize(moonPosition));
+    vIsSun = (sunDot > moonDot) ? 1.0 : 0.0;
+}

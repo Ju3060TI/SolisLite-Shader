@@ -1,0 +1,24 @@
+/* SolisLite - gbuffers_hand.vsh
+ * Das in der Hand gehaltene Item/Block selbst. Bekommt dieselbe
+ * Beleuchtung wie Entities, zusaetzlich immer vollen Beitrag des
+ * eigenen Handlichts (ein leuchtendes Item soll sich selbst sichtbar
+ * erhellen). */
+#version 120
+#include "lib/common.glsl"
+
+varying vec2 vTexCoord;
+varying vec2 vLmCoord;
+varying vec4 vColor;
+varying vec3 vViewNormal;
+varying vec3 vViewPos;
+
+void main() {
+    vec4 viewPos = gl_ModelViewMatrix * gl_Vertex;
+    gl_Position = gl_ProjectionMatrix * viewPos;
+
+    vViewPos = viewPos.xyz;
+    vViewNormal = normalize(gl_NormalMatrix * gl_Normal);
+    vTexCoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
+    vLmCoord  = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
+    vColor = gl_Color;
+}
